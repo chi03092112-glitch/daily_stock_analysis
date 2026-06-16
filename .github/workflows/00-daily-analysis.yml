@@ -33,7 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     # 添加超时限制，防止任务卡死
     timeout-minutes: ${{ fromJSON(vars.ANALYSIS_TIMEOUT_MINUTES || '30') }}
-    
+    env:
+      STOCK_CODES: ${{ vars.STOCK_CODES }}
+      
     steps:
       - name: 随机延迟（避免固定时间访问）
         run: sleep $((RANDOM % 60))  # 随机延迟0-60秒启动
@@ -463,11 +465,11 @@ jobs:
 
           # 执行分析
           if [ "$MODE" = "market-only" ]; then
-            python main.py --market-review $FORCE_RUN_ARG
+            python main.py --market-review--stocks "$STOCK_CODES" $FORCE_RUN_ARG
           elif [ "$MODE" = "stocks-only" ]; then
-            python main.py --no-market-review $FORCE_RUN_ARG
+            python main.py --no-market-review--stocks "$STOCK_CODES" $FORCE_RUN_ARG
           else
-            python main.py $FORCE_RUN_ARG
+            python main.py--stocks "$STOCK_CODES" $FORCE_RUN_ARG
           fi
       
       - name: 上传分析报告
