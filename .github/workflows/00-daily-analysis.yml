@@ -465,11 +465,11 @@ jobs:
 
           # 执行分析
           if [ "$MODE" = "market-only" ]; then
-            python main.py --market-review--stocks "$STOCK_CODES" $FORCE_RUN_ARG
+            python main.py --market-review--stocks "${{ vars.STOCK_CODES }}"
           elif [ "$MODE" = "stocks-only" ]; then
-            python main.py --no-market-review--stocks "$STOCK_CODES" $FORCE_RUN_ARG
+            python main.py --no-market-review--stocks "${{ vars.STOCK_CODES }}"
           else
-            python main.py--stocks "$STOCK_CODES" $FORCE_RUN_ARG
+            python main.py--stocks "${{ vars.STOCK_CODES }}"
           fi
       
       - name: 上传分析报告
